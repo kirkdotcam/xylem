@@ -1,0 +1,57 @@
+use('mongodbVSCodePlaygroundDB');
+
+//MongoDB only allows regex search using strings, so how would one use regex for numerical values?
+
+db.getCollection('sales').insertMany([
+    { 'item': 'abc', 'price': 10, 'quantity': 2, 'date': new Date('2014-03-01T08:00:00Z') },
+    { 'item': 'jkl', 'price': 20, 'quantity': 1, 'date': new Date('2014-03-01T09:00:00Z') },
+    { 'item': 'xyz', 'price': 5, 'quantity': 10, 'date': new Date('2014-03-15T09:00:00Z') },
+    { 'item': 'xyz', 'price': 5, 'quantity': 20, 'date': new Date('2014-04-04T11:21:39.736Z') },
+    { 'item': 'abc', 'price': 10, 'quantity': 10, 'date': new Date('2014-04-04T21:23:13.331Z') },
+    { 'item': 'def', 'price': 7.5, 'quantity': 5, 'date': new Date('2015-06-04T05:08:13Z') },
+    { 'item': 'def', 'price': 7.5, 'quantity': 10, 'date': new Date('2015-09-10T08:43:00Z') },
+    { 'item': 'abc', 'price': 10, 'quantity': 5, 'date': new Date('2016-02-06T20:20:13Z') },
+  ]);
+
+
+//solution 1: conversion
+db.sales.aggregate([{$project:{
+    _id: 1,
+    "price": {$toString: "$price"},
+}},
+{$match: {
+    price: /^1/
+}}])
+
+/**
+ * pros: can index, and potentially use a match stage 
+ * with a range query earlier in the pipeline to reduce number of conversions
+ * 
+ * cons: you are converting numbers to strings
+*/
+
+//solution 2: convert, but super fancy.
+//(adapted from https://stackoverflow.com/questions/2908100/mongodb-regex-search-on-integer-value)
+
+db.sales.aggregate(
+    [ 
+        { "$project": { 
+            _id: 1,
+            "price": { $toLower : "$price" }, 
+            //$toLower and $toUpper have some 
+            //interesting secondary usage here to convert 
+            //numerical data to strings
+        }}, 
+        { "$match": { "stringifyExample": /^1/ } }
+    ]
+)
+
+/**
+ * pros: same song, different tune as version 1
+ * cons: may be confusing to other developers (and future you!)
+ */
+
+
+// Strong DO NOT RECOMMEND Approaches:
+
+//Using $where - this uses javascript to evaluate the regex. Javascript is slow for a database query, indexes won't be leveraged, and opens a potential security risk evaluating the regex object. On MOST production systems, JS will be disabled, as well.
