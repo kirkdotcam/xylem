@@ -1,0 +1,36 @@
+use("test")
+db.example.drop()
+db.example.insertMany([
+    {
+        _id: 1,
+        colors:["green", "blue", "blue"],
+        heights:[128, 121, 130],
+        ages:[25, 28, 26]
+    },
+    {
+        _id: 2,
+        colors:["red", "green", "blue"],
+        heights:[118, 115, 130],
+        ages:[32, 50, 16]
+    },
+    {
+        _id: 3,
+        colors:["purple", "purple", "blue"],
+        heights:[122, 108, 106],
+        ages:[25, 21, 44]
+    }
+    ])
+   
+
+db.example.updateOne(
+    {colors:"green", heights: {$lt: 120}},
+    {$inc: {
+        "ages.$[young]": 1,
+        "heights.$[tall]": -2
+    }},
+    {arrayFilters:[
+        {"young":{"$lt":40}},
+        {"tall": {"$gt":115}}
+        ]})
+       
+db.example.find()
