@@ -1,6 +1,6 @@
 # xylem
 
-This project is meant to be a low-complexity set of examples for implementing methods for MongoDB language drivers. 
+This project is meant to be a low-complexity set of examples for implementing methods for MongoDB language drivers.
 
 ## chStreamFlood
 
@@ -13,3 +13,19 @@ A compare/contrast set of code of using reads with updates, as opposed to a find
 ## gridFSNode
 
 An example of an implementation of gridFS to load basil images into the database as objects and creating chunks collections.
+
+## csfle
+
+An example of client-side field-level encryption.
+
+## multipleArrayFilters
+
+An example of multiple ArrayFilters being used in an update query to update separate array fields on a document.
+
+## regex
+
+Doing regular expressions on numbers in MongoDB.
+
+## errorHandling
+
+Dealing with errors in an insertMany vs an upsert (with BulkWrite).
