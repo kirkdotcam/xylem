@@ -1,0 +1,13 @@
+db.fakeCustomer.updateOne({
+    custName: "Waystar Royco"
+}, {
+    $push: {
+        "oldAddr.$[paris].zipcode": "75461"
+    }
+}, {
+    arrayFilters: [{
+        "paris.city": {
+            $eq: "Paris"
+        }
+    }]
+})
