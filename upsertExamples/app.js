@@ -1,4 +1,6 @@
+// you don't have to run this! its so you know what the data _should_ look like
 db.users.insertOne({
+
   name: "Cam",
   age: 33,
   accDetails: {
@@ -7,6 +9,8 @@ db.users.insertOne({
   }
 })
 
+db.users.drop()
+//update on an emtpy collection modifies nothing
 db.users.updateOne({
     name: "Cam",
     age: {$gt: 40}
@@ -18,6 +22,7 @@ db.users.updateOne({
   }
 )
 
+//upsert creates a new doc on failing to match anything
 db.users.updateOne({
     name: "Cam",
     age: {$gt: 40}
@@ -32,6 +37,9 @@ db.users.updateOne({
   }
 )
 
+db.users.drop()
+// $setOnInsert correctly adds additional fields on upsert so that 
+// your data has consistent field values and schema shape
 db.users.updateOne({
     name: "Cam",
     age: {$gt: 40}
