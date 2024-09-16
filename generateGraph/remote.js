@@ -5,7 +5,7 @@ let NUMPARENTS = 10_000
 let NUMCHILDREN = 80_000
 
 const { MongoClient} = require('mongodb');
-const MONGODBURI = "mongodb://localhost:27017";
+const MONGODBURI = "mongodb+srv://camkirk:bananabanana@cluster0.35i9fpx.mongodb.net/?retryWrites=true&w=majority";
 
 const client = new MongoClient(MONGODBURI)
 
