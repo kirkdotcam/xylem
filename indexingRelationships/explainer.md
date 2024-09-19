@@ -135,6 +135,8 @@ with explain:
 db.characters.explain("executionStats").find({_id: "Drogo"})
 ```
 
+Note that because we are looking for the people that *Drogo follows*, we simply need to find the doc that belongs to his `_id`, which contains an array of the people he follows.
+
 Find all of the follw**ers** of Drogo.
 ```js
 
