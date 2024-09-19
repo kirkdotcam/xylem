@@ -1,10 +1,12 @@
+# Indexing Relationships
+
 When thinking about a large many-to-many relationship, we need to consider how an array will grow:
 
 ```json
 
 {
-  _id: "Cam",
-  followers: []
+  "_id": "Cam",
+  "followers": []
 }
 
 ```
@@ -13,28 +15,25 @@ In this example document for a user in a social networking site, the followers a
 
 ```json
 {
-  _id: "Khal Drogo",
-  followers: ["you", "me", ...thousands of other Game of Thrones fans]
+  "_id": "Khal Drogo",
+  "followers": ["you", "me", ...thousands of other Game of Thrones fans]
 }
 
 ```
 
 This is an example of a suboptimal schema design. However, we can improve on this design by inverting the relationship we're trying to model. To clarify, instead of follow**ers**, let's try follow**ing**:
 
-
 ```json
 {
-  _id: "Khal Drogo",
-  following: ["Khaleesi", "Qotho", "Pono", "Jaqho"]
+  "_id": "Khal Drogo",
+  "following": ["Khaleesi", "Qotho", "Pono", "Jaqho"]
 }
 
 ```
 
-
 An artifact of human social networks, the list of people we are following (at least, ones we actually care about) is in the [range of around 200 people](https://en.wikipedia.org/wiki/Dunbar's_number).
 
 We have solved for being able to _store_ the data, but what about _querying_ it? I can easily look up who Khal Drogo is following, but the reverse process is quite slow. Searching through each array of `following` for each user is important because it defines who the follow**ers** are of each user, i.e. the sum total of all the documents which contain "Drogo" in their array for `following` is the set of users that are all following Drogo.  We'll have to conduct a full collection scan, walking each element of every array in order to find all of the follow**ers** of Khal Drogo. 
-
 
 However, if I build an index on `following` I can facilitate fast, efficient queries!
 
@@ -94,11 +93,11 @@ There is an equivalent set of pointers found for each of the users in the datase
 
 Let's take a look at a more concrete example using Javascript
 
-# Examples
+## Examples
 
 The example here is broken up into different sections for the data, indexes, and queries.
 
-## Dataset
+### Dataset
 
 ```js
 db.characters.insertMany([
@@ -118,16 +117,18 @@ db.characters.insertMany([
 ])
 ```
 
-## Index Creation
+### Index Creation
 
 ```js
 db.characters.createIndex({following: 1})
 ```
 
-## Queries
+### Queries
 
 Find anyone who Drogo is follow**ing**
+
 ```js
+
 db.characters.find({_id: "Drogo"})
 ```
 
@@ -140,12 +141,14 @@ db.characters.explain("executionStats").find({_id: "Drogo"})
 Note that because we are looking for the people that _Drogo is following_, we simply need to find the doc that belongs to his `_id`, which contains an array of the people he follows.
 
 Find all of the follw**ers** of Drogo.
+
 ```js
 
 db.characters.find({following: "Drogo" })
 
 ```
-with explain: 
+
+with explain:
 
 ```js
 
