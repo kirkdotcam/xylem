@@ -77,7 +77,7 @@ flowchart LR
     Qotho3[Qotho] -->|following| Drogo4[Drogo]
 ```
 
-In the previous diagram we can see that there are relationships for "following" for each of the friends in this group. Note that even if Drogo had one million followers, he would only appear on the left side of this diagram pointing to the people he follows, even though he may be the target of millions of follow**ers**. In MongoDB, if we index the `follows` array for each document, we'll have pointers on each of the nodes that we saw in the earlier diagram showing the nodes of the B-tree. 
+In the previous diagram we can see that there are relationships for "following" for each of the friends in this group. Note that even if Drogo had one million followers, he would only appear on the left side of this diagram once pointing to the people he follows, even though he may be the target of millions of follow**ers**. In MongoDB, if we index the `follows` array for each document, we'll have pointers on each of the nodes that we saw in the earlier diagram showing the nodes of the B-tree. 
 
 As a quick example, here's what the node for the user Pono would look like:
 
@@ -137,7 +137,7 @@ with explain:
 db.characters.explain("executionStats").find({_id: "Drogo"})
 ```
 
-Note that because we are looking for the people that *Drogo following*, we simply need to find the doc that belongs to his `_id`, which contains an array of the people he follows.
+Note that because we are looking for the people that _Drogo is following_, we simply need to find the doc that belongs to his `_id`, which contains an array of the people he follows.
 
 Find all of the follw**ers** of Drogo.
 ```js
