@@ -1,11 +1,17 @@
---file
---database
---collection
+# Import commands using `mongoimport`
 
---jsonArray
---type=<json|csv|tsv>
---fields/--fieldFile
---columnsHaveTypes
+Common required flags
+
+- --file
+- --database
+- --collection
+
+Useful flags for JSON Arrays and CSV/TSV files
+
+- --jsonArray
+- --type=<json|csv|tsv>
+- --fields/--fieldFile
+- --columnsHaveTypes
 
 ```csv
 name
@@ -13,17 +19,22 @@ age
 height
 ```
 
---stopOnError
---writeConcern
+Useful flags for controlling import behaviors
 
---upsertFields
---mode=<insert|upsert|merge|delete>
-note: upsert is a REPLACE here!!
+- --stopOnError
+- --writeConcern
 
---drop
+- --upsertFields
+- --mode=<insert|upsert|merge|delete>
+- note: upsert is a REPLACE here!!
 
+- --drop
+
+Links to Documentation
 https://www.mongodb.com/docs/database-tools/mongoimport/
 https://www.mongodb.com/docs/database-tools/mongoimport/mongoimport-examples/#import-csv-with-specified-field-types
+
+An example using a file called sample_mflix.comments.json (also in this folder)
 
 ```bash
 
