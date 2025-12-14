@@ -26,13 +26,13 @@ Useful flags for controlling import behaviors
 
 - --upsertFields
 - --mode=<insert|upsert|merge|delete>
-- note: upsert is a REPLACE here!!
+  - note: upsert is a REPLACE here!!
 
 - --drop
 
 Links to Documentation
-https://www.mongodb.com/docs/database-tools/mongoimport/
-https://www.mongodb.com/docs/database-tools/mongoimport/mongoimport-examples/#import-csv-with-specified-field-types
+- https://www.mongodb.com/docs/database-tools/mongoimport/
+- https://www.mongodb.com/docs/database-tools/mongoimport/mongoimport-examples/#import-csv-with-specified-field-types
 
 An example using a file called sample_mflix.comments.json (also in this folder)
 
