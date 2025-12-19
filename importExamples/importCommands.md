@@ -6,24 +6,27 @@
 --type=<json|csv|tsv>
 --fields/--fieldFile
 --columnsHaveTypes
+--parseGrace
 
 ```csv
-name
-age
-height
+name.string()
+age.int32()
+height.double()
 ```
 
 --stopOnError
 --writeConcern
+--numInsertionWorkers
 
---upsertFields
 --mode=<insert|upsert|merge|delete>
 note: upsert is a REPLACE here!!
+--upsertFields
 
 --drop
 
 https://www.mongodb.com/docs/database-tools/mongoimport/
 https://www.mongodb.com/docs/database-tools/mongoimport/mongoimport-examples/#import-csv-with-specified-field-types
+https://www.mongodb.com/try/download/database-tools
 
 ```bash
 
@@ -34,6 +37,7 @@ mongoimport \
 --db=test \
 --collection=comments \
 --stopOnError \
---drop
+--drop \
+--mode=insert
 
 ```
